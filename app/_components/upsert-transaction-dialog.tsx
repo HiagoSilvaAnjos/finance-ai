@@ -42,6 +42,8 @@ import {
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { upsertTransaction } from "../_actions/add-transaction";
+import { useEffect } from "react";
+import { upsertTransactionSchema } from "../_actions/add-transaction/schema";
 
 interface UpsertTransactionDialogProps {
   isOpen: boolean;
@@ -50,35 +52,7 @@ interface UpsertTransactionDialogProps {
   transactionId?: string;
 }
 
-const formSchema = z.object({
-  name: z.string().trim().min(1, {
-    message: "O nome é obrigatório.",
-  }),
-
-  amount: z
-    .number({
-      required_error: "O valor é obrigatório",
-    })
-    .positive({
-      message: "O valor deve ser positivo",
-    }),
-
-  type: z.nativeEnum(TransactionType, {
-    required_error: "O tipo é obrigatório.",
-  }),
-
-  category: z.nativeEnum(TransactionCategory, {
-    required_error: "A categoria é obrigatório.",
-  }),
-
-  paymentMethod: z.nativeEnum(TransactionPaymentMethod, {
-    required_error: "O tipo de pagamento é obrigatório.",
-  }),
-
-  date: z.date({
-    required_error: "A data é obrigatório.",
-  }),
-});
+const formSchema = upsertTransactionSchema;
 
 type FormSchema = z.infer<typeof formSchema>;
 
@@ -96,7 +70,7 @@ const UpsertTransactionDialog = ({
           date: new Date(defaultValues.date),
         }
       : {
-          amount: 50,
+          amount: 0,
           category: TransactionCategory.OTHER,
           date: new Date(),
           name: "",
@@ -105,10 +79,20 @@ const UpsertTransactionDialog = ({
         },
   });
 
+  useEffect(() => {
+    if (isOpen && defaultValues) {
+      form.reset({
+        ...defaultValues,
+        date: new Date(defaultValues.date),
+      });
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [isOpen, defaultValues]);
+
   const onSubmit = async (data: FormSchema) => {
     try {
-      await upsertTransaction({ ...data, id: transactionId });
       setIsOpen(false);
+      await upsertTransaction({ ...data, id: transactionId });
       form.reset();
     } catch (error) {
       console.log(error);
@@ -161,7 +145,7 @@ const UpsertTransactionDialog = ({
                       placeholder="Digite o valor..."
                       value={field.value}
                       onValueChange={({ floatValue }) => {
-                        field.onChange(floatValue);
+                        field.onChange(floatValue ?? null);
                       }}
                       onBlur={field.onBlur}
                       disabled={field.disabled}
