@@ -1,7 +1,7 @@
-import { UserButton } from "@clerk/nextjs";
 import { auth } from "@clerk/nextjs/server";
 import { redirect } from "next/navigation";
-import NavBar from "./_components/navbar";
+import NavBar from "../_components/navbar";
+import SummaryCards from "./_components/summary-cards";
 
 const Home = async () => {
   const { userId } = await auth();
@@ -13,9 +13,7 @@ const Home = async () => {
   return (
     <>
       <NavBar />
-      <div className="flex h-full items-center justify-center">
-        <UserButton showName />
-      </div>
+      <SummaryCards />
     </>
   );
 };
