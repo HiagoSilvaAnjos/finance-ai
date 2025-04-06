@@ -19,16 +19,18 @@ const TransactionsPage = async () => {
     },
   });
   return (
-    <div className="space-y-6 p-6">
-      <div className="flex w-full items-center justify-between text-2xl">
-        <h1 className="text-2xl font-bold">Transações</h1>
-        <AddTransactionButton />
+    <>
+      <div className="space-y-6 p-6">
+        <div className="flex w-full items-center justify-between text-2xl">
+          <h1 className="text-2xl font-bold">Transações</h1>
+          <AddTransactionButton />
+        </div>
+        <DataTable
+          columns={transactionColumns}
+          data={JSON.parse(JSON.stringify(transactions))}
+        />
       </div>
-      <DataTable
-        columns={transactionColumns}
-        data={JSON.parse(JSON.stringify(transactions))}
-      />
-    </div>
+    </>
   );
 };
 
