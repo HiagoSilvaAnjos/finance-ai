@@ -5,6 +5,7 @@ import AddTransactionButton from "../_components/add-transaction-button";
 import { auth } from "@clerk/nextjs/server";
 import { Transaction } from "@prisma/client";
 import { redirect } from "next/navigation";
+import NavBar from "../_components/navbar";
 
 const TransactionsPage = async () => {
   const { userId } = await auth();
@@ -20,6 +21,7 @@ const TransactionsPage = async () => {
   });
   return (
     <>
+      <NavBar />
       <div className="space-y-6 p-6">
         <div className="flex w-full items-center justify-between text-2xl">
           <h1 className="text-2xl font-bold">Transações</h1>
