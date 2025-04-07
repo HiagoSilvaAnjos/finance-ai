@@ -17,7 +17,7 @@ const NavBar = () => {
           href={"/"}
           className={
             pathname === "/"
-              ? "border-b-2 border-primary border-teal-500 text-primary transition duration-300 ease-in-out"
+              ? "border-b-2 border-primary text-primary transition duration-300 ease-in-out"
               : "text-muted-foreground"
           }
         >
@@ -27,7 +27,7 @@ const NavBar = () => {
           href={"/Transactions"}
           className={
             pathname === "/Transactions"
-              ? "border-b-2 border-primary border-teal-500 text-primary transition duration-300 ease-in-out"
+              ? "border-b-2 border-primary text-primary transition duration-300 ease-in-out"
               : "text-muted-foreground"
           }
         >
@@ -37,7 +37,7 @@ const NavBar = () => {
           href={"/Subscription"}
           className={
             pathname === "/Subscription"
-              ? "border-b-2 border-primary border-teal-500 text-primary transition duration-300 ease-in-out"
+              ? "border-b-2 border-primary text-primary transition duration-300 ease-in-out"
               : "text-muted-foreground"
           }
         >
